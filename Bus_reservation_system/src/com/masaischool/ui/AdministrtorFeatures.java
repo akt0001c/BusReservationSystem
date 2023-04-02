@@ -7,9 +7,14 @@ import java.time.LocalTime;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.masaischool.dao.*;
+import com.masaischool.dto.*;
+import com.masaischool.exceptions.SomethingWentWrongException;
+
 public class AdministrtorFeatures {
 	
 	public static void addBusIntoDatabase() {
+		AdminDao  dao= new AdminDaoImpl();
 		
 		BufferedReader br= null;
 		try {
@@ -17,8 +22,7 @@ public class AdministrtorFeatures {
 		 
 		 System.out.println("Enter Bus Number:");
 		 String bnum= br.readLine();
-		 System.out.println("Enter Bus Name:");
-		 String bname= br.readLine();
+		
 		 System.out.println("Enter Bus Starting point:");
 		 String spName=br.readLine();
 		 System.out.println("Enter Bus Destination:");
@@ -33,7 +37,16 @@ public class AdministrtorFeatures {
 		 int num= Integer.parseInt(br.readLine());
 		 System.out.println("Enter Bus Fare:");
 		 int fare= Integer.parseInt(br.readLine());
-		}catch(IOException ex) {}
+		 
+		 
+		 Buses obj= new BusesImpl(bnum,spName,desName,DTime,ATime,num,fare,bType);
+		 String str=dao.AddBusDetails(obj);
+		 System.out.println(str);
+		}catch(IOException ex) {
+			System.out.println("Error in input , Please try again");
+		} catch (SomethingWentWrongException e) {
+			   System.out.println(e);
+		  }
 		
 		finally {
 			try {
@@ -45,7 +58,39 @@ public class AdministrtorFeatures {
 		}
 		
 	};
-	public static void updateBusDetails() {};
+	public static void updateBusDetails() {
+		AdminDao  dao= new AdminDaoImpl();
+		BufferedReader br= null;
+		try {
+			 br= new BufferedReader(new InputStreamReader(System.in));
+			 System.out.println("Enter Bus Number");
+			 String bnum= br.readLine();
+			 System.out.println("Enter new updated bus type and Total seat number");
+			 String btype=br.readLine();
+			 int seats= Integer.parseInt(br.readLine());
+			 
+			 Buses ob= new BusesImpl();
+			 ob.setBusNo(bnum);
+			 ob.setBusType(btype);
+			 ob.setTotalSeats(seats);
+			 String str= dao.updateBusDetails(ob);
+			 System.out.println(str);
+			 
+			}catch(IOException ex) {
+				System.out.println("Error in input , Please try again");
+			} catch (SomethingWentWrongException e) {
+				   System.out.println(e);
+			  }
+			
+			finally {
+				try {
+					br.close();
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			}
+	};
 	public static void deleteBusFromDatabase() {};
 	public static void viewAllBookings() {};
 	public static void viewBookingsForDateRange() {};

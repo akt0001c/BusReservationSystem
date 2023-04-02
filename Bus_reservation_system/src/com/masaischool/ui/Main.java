@@ -3,6 +3,9 @@ package com.masaischool.ui;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.masaischool.exceptions.SomethingWentWrongException;
+import com.masaischool.exceptions.UserNotFoundException;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -35,7 +38,15 @@ public class Main {
 			  AdministratorLogin.AdminLogin(scn);
 			  break;
 		  case 2:
-			  UserLogin.login(scn);
+			  try {
+				UserLogin.login(scn);
+			} catch (UserNotFoundException e) {
+				// TODO Auto-generated catch block
+				    System.out.println(e);
+			} catch (SomethingWentWrongException e) {
+				// TODO Auto-generated catch block
+				 System.out.println(e);
+			}
 			  break;
 		  case 3:
 			  UserSignup.signup(scn);

@@ -1,9 +1,11 @@
 package com.masaischool.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import com.masaischool.exceptions.RecordNotFoundException;
 import com.masaischool.exceptions.SeatsNotAvailableException;
 import com.masaischool.exceptions.SomethingWentWrongException;
 import com.masaischool.exceptions.UserNotFoundException;
+import com.masaischool.ui.LoggedUserDetails;
 
 public class UserDaoImpl implements UserDao {
 	
@@ -178,12 +181,70 @@ public class UserDaoImpl implements UserDao {
 		}
 		return ans;
 	}
+	
+	private int getuserId(String mobileNo) throws RecordNotFoundException, SomethingWentWrongException {
+		int ans=0;
+		Connection conn=null; 
+		try {
+			conn= DbUtils.createConnection();
+			String query= "select * from Passenger where  is_deleted=0 and mobileNo=?";
+			PreparedStatement ps= conn.prepareStatement(query);
+			ps.setString(1,mobileNo );
+			
+			
+		    ResultSet rs= ps.executeQuery();
+		    
+		    if(isResultEmpty(rs))
+		    	  throw new RecordNotFoundException("No user Found,Please try again later");
+		    
+		  
+			ans= rs.getInt("PassengerID");
+			
+		}catch(SQLException ex) {}
+		finally {
+			try {
+				DbUtils.closeConnection(conn);
+			} catch (SQLException e) {
+				
+			     throw new SomethingWentWrongException("Something Went Wrong with servers , Please Try again");
+			}
+			
+		}
+		return ans;
+	}
 
 	@Override
-	public String bookTicket(String busno) throws SomethingWentWrongException, SeatsNotAvailableException, RecordNotFoundException {
+	public String bookTicket(String busno,LocalDate date,String ticketID,int no_passenger) throws SomethingWentWrongException, SeatsNotAvailableException, RecordNotFoundException {
 		int Busid= getBusId(busno);
-		int userid= 
-		return null;
+		int UserID= getuserId(LoggedUserDetails.mobileno); 
+		
+		Connection conn=null;
+		try {
+			conn= DbUtils.createConnection();
+			String query= "insert into Bookings (Bus_Id,user_ID,no_of_passenger,BookingDate,ticketID) values (?,?,?,?,?)";
+			PreparedStatement ps= conn.prepareStatement(query);
+			ps.setInt(1, Busid);
+			ps.setInt(2, UserID);
+			ps.setInt(3,no_passenger);
+			ps.setDate(4, Date.valueOf(date));
+			ps.setString(5, ticketID);
+			
+		    int x= ps.executeUpdate();
+		    if(x==0)
+		    	  throw new SomethingWentWrongException("Something went wrong , please try again");
+			
+			
+		}catch(SQLException ex) {}
+		finally {
+			try {
+				DbUtils.closeConnection(conn);
+			} catch (SQLException e) {
+				
+			     throw new SomethingWentWrongException("Something Went Wrong with servers , Please Try again");
+			}
+		}
+		
+		return "Booking done sucessfully";
 	}
 
 	@Override
@@ -194,8 +255,36 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<Bookings> viewListOfBooking() throws SomethingWentWrongException, RecordNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		Connection conn=null; List<Bookings> list=null;
+		try {
+			conn= DbUtils.createConnection();
+			String query= " select * from bookings inner join Buses ON  bookings.Bus_id= Buses.BusID  inner join Passenger ON bookings.user_ID= Passenger.PassengerID where Passenger.is_deleted=0 and Buses.is_deleted=0 and bookings.is_deleted=0 and mobileNo=? ";
+
+			PreparedStatement ps= conn.prepareStatement(query);
+			ps.setString(1,LoggedUserDetails.mobileno );
+			
+			
+		    ResultSet rs= ps.executeQuery();
+		    
+		    if(isResultEmpty(rs))
+		    	  throw new RecordNotFoundException("No Booking Found,Please try again later");
+		    
+		    list= getResult(rs);
+		   
+			
+		}catch(SQLException ex) {}
+		finally {
+			try {
+				DbUtils.closeConnection(conn);
+			} catch (SQLException e) {
+				
+			     throw new SomethingWentWrongException("Something Went Wrong with servers , Please Try again");
+			}
+			
+		}
+		return list;
 	}
 
 	@Override
