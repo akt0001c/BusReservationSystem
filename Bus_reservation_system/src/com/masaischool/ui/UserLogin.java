@@ -65,6 +65,7 @@ public class UserLogin {
 		}
 		
 		System.out.println("Welcome  "+LoggedUserDetails.Fname+" "+LoggedUserDetails.Lname);
+		UserFeatures.showOptions(scn);
 		return;
 	};
 }

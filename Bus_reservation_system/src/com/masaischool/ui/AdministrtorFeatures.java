@@ -3,12 +3,15 @@ package com.masaischool.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.masaischool.dao.*;
 import com.masaischool.dto.*;
+import com.masaischool.exceptions.RecordNotFoundException;
 import com.masaischool.exceptions.SomethingWentWrongException;
 
 public class AdministrtorFeatures {
@@ -91,12 +94,144 @@ public class AdministrtorFeatures {
 				}
 			}
 	};
-	public static void deleteBusFromDatabase() {};
-	public static void viewAllBookings() {};
-	public static void viewBookingsForDateRange() {};
-	public static void viewBookingByBusName() {};
-	public static void viewBookingByMobile() {};
-	public static void logout() {};
+	public static void deleteBusFromDatabase() {
+		AdminDao  dao= new AdminDaoImpl();
+		BufferedReader br= null;
+		try {
+			 br= new BufferedReader(new InputStreamReader(System.in));
+			 System.out.println("Enter Bus Number");
+			 String bnum= br.readLine();
+			
+			 String str= dao.deleteBusDetails(bnum);
+			 System.out.println(str);
+			 
+			}catch(IOException ex) {
+				System.out.println("Error in input , Please try again");
+			} catch (SomethingWentWrongException e) {
+				   System.out.println(e);
+			  } catch (RecordNotFoundException e) {
+				// TODO Auto-generated catch block
+				   System.out.println(e);
+			}
+			
+			finally {
+				try {
+					br.close();
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			}
+		
+	};
+	public static void viewAllBookings() {
+		AdminDao  dao= new AdminDaoImpl();
+		try {
+			List<Bookings> list= dao.viewAllBookings();
+			
+			if(list!=null)
+			{
+				list.forEach(i->System.out.println(i));
+			}
+		} catch (SomethingWentWrongException | RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+	};
+	public static void viewBookingsForDateRange() {
+		AdminDao  dao= new AdminDaoImpl();
+		BufferedReader br= null;
+		try {
+			 br= new BufferedReader(new InputStreamReader(System.in));
+			 System.out.println("Enter the date range:");
+			 LocalDate sdate= LocalDate.parse(br.readLine());
+			 LocalDate edate= LocalDate.parse(br.readLine());
+			 List<Bookings> list1 = dao.viewBookingsByDateRange(sdate, edate);
+			 if(list1!=null)
+			 {
+				 list1.forEach(i->System.out.println(i));
+			 }
+			 
+			}catch(IOException ex) {
+				System.out.println("Error in input , Please try again");
+			} catch (SomethingWentWrongException e) {
+				   System.out.println(e);
+			  } catch (RecordNotFoundException e) {
+				// TODO Auto-generated catch block
+				   System.out.println(e);
+			}
+			
+			finally {
+				try {
+					br.close();
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			}
+	};
+	public static void viewBookingByBusNumber() {
+		AdminDao  dao= new AdminDaoImpl();
+		BufferedReader br= null;
+		try {
+			 br= new BufferedReader(new InputStreamReader(System.in));
+			 System.out.println("Enter the Bus Number:");
+			 String bnum= br.readLine();
+			 List<Bookings> list2= dao.viewBookingByBusNumber(bnum);
+			 if(list2!=null)
+			 {
+				 list2.forEach(i->System.out.println(i));
+			 }
+			 
+			}catch(IOException ex) {
+				System.out.println("Error in input , Please try again");
+			} catch (SomethingWentWrongException e) {
+				   System.out.println(e);
+			  } catch (RecordNotFoundException e) {
+				// TODO Auto-generated catch block
+				   System.out.println(e);
+			}
+			
+			finally {
+				try {
+					br.close();
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			}
+	};
+	public static void viewBookingByMobile() {
+		AdminDao  dao= new AdminDaoImpl();
+		BufferedReader br= null;
+		try {
+			 br= new BufferedReader(new InputStreamReader(System.in));
+			 System.out.println("Enter the Mobile Number:");
+			 String num= br.readLine();
+			 List<Bookings> list3= dao.viewBookingByMobileNo(num);
+			 if(list3!=null)
+			 {
+				 list3.forEach(i->System.out.println(i));
+			 }
+			 
+			}catch(IOException ex) {
+				System.out.println("Error in input , Please try again");
+			} catch (SomethingWentWrongException e) {
+				   System.out.println(e);
+			  } catch (RecordNotFoundException e) {
+				// TODO Auto-generated catch block
+				   System.out.println(e);
+			}
+			
+			finally {
+				try {
+					br.close();
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			}
+	};
 	
 	
 	public static void  showOptions(Scanner scn) {
@@ -141,13 +276,14 @@ public class AdministrtorFeatures {
 	    		 viewBookingsForDateRange();
 	    		 break;
 	    	 case 6:
-	    		 viewBookingByBusName();
+	    		 viewBookingByBusNumber();
 	    		 break;
 	    	 case 7:
 	    		 viewBookingByMobile();
 	    		 break;
 	    	 case 8:
-	    		  logout();
+	    		    System.out.println("Thank you for using our services ,Logout");
+	    		    option=0;
 	    		 break;
 	    	default:
 	    		  System.out.println("INVALID INPUT , PLEASE TRY AGAIN");
