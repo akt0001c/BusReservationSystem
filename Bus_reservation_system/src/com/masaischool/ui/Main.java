@@ -12,14 +12,14 @@ public class Main {
 		Scanner scn = new Scanner(System.in);
 		int choice= 0;
 		do {
-			    System.out.println("\n\n      |------------------------------------|\n"
+			    System.out.println("\n\n      |************************************|\n"
 						         + "      | Welcome in Bus Reservation System. |\n"
 						         + "      | Enter Your choice:                 |\n"
 						         + "      |  1.Login As Administrator          |\n"
-						         + "      |  2.Sign up AS Passanger            |\n"
-						         + "      |  3.Login As Passanger              |\n"
+						         + "      |  2.Login as Passanger              |\n"
+						         + "      |  3.Signup as Passanger             |\n"
 						         + "      |  0.Exit                            |\n"
-						         + "      |------------------------------------|");
+						         + "      |************************************|");
 		
 			    
 		while(true) {	    
@@ -41,10 +41,10 @@ public class Main {
 			  try {
 				UserLogin.login(scn);
 			} catch (UserNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				    System.out.println(e);
 			} catch (SomethingWentWrongException e) {
-				// TODO Auto-generated catch block
+				
 				 System.out.println(e);
 			}
 			  break;

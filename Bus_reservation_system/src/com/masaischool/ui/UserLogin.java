@@ -13,18 +13,23 @@ public class UserLogin {
 	
 	private static boolean isCredentialValid(String user,String pass) throws UserNotFoundException, SomethingWentWrongException {
 		UserDao ob= new UserDaoImpl();
+		
+		
 		User tmp= new UserImpl();
 		tmp.setUsername(user);
 		tmp.setPassword(pass);
-		
+	
 		User loggedUser= ob.userLogin(tmp);
+	
 		
 		if(loggedUser==null)
 		{
+			
 			return false;
 		}
 		else
 		{
+			
 			LoggedUserDetails.Fname=loggedUser.getFname();
 			LoggedUserDetails.Lname=loggedUser.getLname();
 			LoggedUserDetails.mobileno=loggedUser.getMobileNo();
@@ -66,6 +71,6 @@ public class UserLogin {
 		
 		System.out.println("Welcome  "+LoggedUserDetails.Fname+" "+LoggedUserDetails.Lname);
 		UserFeatures.showOptions(scn);
-		return;
+		
 	};
 }

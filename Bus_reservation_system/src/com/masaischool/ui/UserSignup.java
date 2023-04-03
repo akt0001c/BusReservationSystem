@@ -2,6 +2,11 @@ package com.masaischool.ui;
 
 import java.util.Scanner;
 
+import com.masaischool.dao.UserDao;
+import com.masaischool.dao.UserDaoImpl;
+import com.masaischool.dto.UserImpl;
+import com.masaischool.exceptions.SomethingWentWrongException;
+
 public class UserSignup {
 	static int count=0;
 	
@@ -14,6 +19,7 @@ private static boolean isCredentialValid(String user,String pass,String no) {
 };
 
 public static  void signup(Scanner scn) {
+	UserDao ob= new UserDaoImpl();
 	
 	while(true)
 	{
@@ -40,6 +46,12 @@ public static  void signup(Scanner scn) {
 	 boolean checker= isCredentialValid(username,password,mobileno);
 	 if(checker==true)
 	 {
+			try {
+				ob.userSignUp(new UserImpl(fname,lname,mobileno,username,password));
+			} catch (SomethingWentWrongException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e);
+			}
 		   break;
 	 }
 	 else
@@ -49,6 +61,8 @@ public static  void signup(Scanner scn) {
 	 }
 	 
 	}
+	
+
 	
 	System.out.println("User has been created");
 	return ;

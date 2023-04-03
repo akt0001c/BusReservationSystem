@@ -97,21 +97,33 @@ public class UserDaoImpl implements UserDao {
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());
 			
+			
 		    ResultSet rs= ps.executeQuery();
-		    if(isResultEmpty(rs))
+		    if(isResultEmpty(rs)==true)
+		    {
+		    	
 		    	  throw new UserNotFoundException("User not Found");
+		    }
 		    
 		    logedUser = new UserImpl();
 		    
+		    while(rs.next())
+		    {
 		    logedUser.setUsername(rs.getString("username"));
 		    logedUser.setPassword(rs.getString("password"));
 		    logedUser.setFname(rs.getString("Fname"));
 		    logedUser.setLname(rs.getString("Lname"));
 		    logedUser.setMobileNo(rs.getString("mobileNo"));
-		 
+		    }
+		    
 			
 			
-		}catch(SQLException ex) {}
+			
+			
+			
+		}catch(SQLException ex) {
+			System.out.println(ex);
+		}
 		finally {
 			try {
 				DbUtils.closeConnection(conn);
@@ -166,8 +178,9 @@ public class UserDaoImpl implements UserDao {
 		    if(isResultEmpty(rs))
 		    	  throw new RecordNotFoundException("No Bus Found,Please try again later");
 		    
-		  
+		  while(rs.next()) {
 			ans= rs.getInt("BusID");
+		  }
 			
 		}catch(SQLException ex) {}
 		finally {
@@ -197,8 +210,9 @@ public class UserDaoImpl implements UserDao {
 		    if(isResultEmpty(rs))
 		    	  throw new RecordNotFoundException("No user Found,Please try again later");
 		    
-		  
+		  while(rs.next()) {
 			ans= rs.getInt("PassengerID");
+		  }
 			
 		}catch(SQLException ex) {}
 		finally {
@@ -217,6 +231,7 @@ public class UserDaoImpl implements UserDao {
 	public String bookTicket(String busno,LocalDate date,String ticketID,int no_passenger) throws SomethingWentWrongException, SeatsNotAvailableException, RecordNotFoundException {
 		int Busid= getBusId(busno);
 		int UserID= getuserId(LoggedUserDetails.mobileno); 
+		
 		
 		Connection conn=null;
 		try {

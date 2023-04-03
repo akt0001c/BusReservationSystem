@@ -51,14 +51,7 @@ public class AdministrtorFeatures {
 			   System.out.println(e);
 		  }
 		
-		finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			}
-		}
+	
 		
 	};
 	public static void updateBusDetails() {
@@ -85,14 +78,6 @@ public class AdministrtorFeatures {
 				   System.out.println(e);
 			  }
 			
-			finally {
-				try {
-					br.close();
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			}
 	};
 	public static void deleteBusFromDatabase() {
 		AdminDao  dao= new AdminDaoImpl();
@@ -114,14 +99,6 @@ public class AdministrtorFeatures {
 				   System.out.println(e);
 			}
 			
-			finally {
-				try {
-					br.close();
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			}
 		
 	};
 	public static void viewAllBookings() {
@@ -161,14 +138,7 @@ public class AdministrtorFeatures {
 				   System.out.println(e);
 			}
 			
-			finally {
-				try {
-					br.close();
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			}
+		
 	};
 	public static void viewBookingByBusNumber() {
 		AdminDao  dao= new AdminDaoImpl();
@@ -192,14 +162,7 @@ public class AdministrtorFeatures {
 				   System.out.println(e);
 			}
 			
-			finally {
-				try {
-					br.close();
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			}
+			
 	};
 	public static void viewBookingByMobile() {
 		AdminDao  dao= new AdminDaoImpl();
@@ -223,14 +186,7 @@ public class AdministrtorFeatures {
 				   System.out.println(e);
 			}
 			
-			finally {
-				try {
-					br.close();
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			}
+			
 	};
 	
 	

@@ -126,14 +126,7 @@ public class UserFeatures {
 				System.out.println(e);
 			}
 			
-			finally {
-				try {
-					br.close();
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			}
+			
 		
 	}
 	
