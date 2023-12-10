@@ -1,6 +1,6 @@
  # Bus Reservation System. #
  
- ***This is a console based Bus Ticket Booking Reservation System which works between to modules Admin and User . It is an console Base application where user can register himself and Login.***
+ ***Explore the Bus Reservation System, a dynamic console-based Java application designed with JDBC to seamlessly connect to MySQL databases. With distinct modules for both administrators and users, this project offers a comprehensive solution for efficient bus seat management and reservations. Dive into the codebase to witness how JDBC facilitates robust interactions with MySQL, empowering administrators with administrative features and users with a streamlined reservation process.***
 
 ## Modules ##
   - Admin
