@@ -1,6 +1,6 @@
  # Bus Reservation System. #
  
- ***This is an Bus Ticket Booking Reservation System which works between to modules Admin and User . It is an console Base application where user can register himself and Login.***
+ ***This is a console based Bus Ticket Booking Reservation System which works between to modules Admin and User . It is an console Base application where user can register himself and Login.***
 
 ## Modules ##
   - Admin
